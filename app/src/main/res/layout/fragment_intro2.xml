@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".IntroFragment2">
+    tools:context=".fragments.IntroFragment2">
     <pl.droidsonroids.gif.GifImageView
         android:src="@drawable/plane_tickets"
         android:layout_width="120dp"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title 2"
+        android:text="Easy Flight Booking"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Description is kasjhdkas jdasjdklasdjklasj dlaskdj aklsdjaskldj aslkdaskldasjkldjasdjasdjkasjkl"
+        android:text="Book your flights quickly and easily with our hassle-free booking process."
         android:textColor="@color/black"
         android:textSize="18sp"/>
 </LinearLayout>

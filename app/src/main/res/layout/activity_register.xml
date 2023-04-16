@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.RegisterActivity">
 
 
     <RelativeLayout
@@ -14,11 +14,11 @@
         android:background="@drawable/background_blue_sky">
 
         <TextView
-            android:id="@+id/idTVSignIn"
+            android:id="@+id/idTVSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Sign In"
+            android:text="Register"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:textSize="35sp"
@@ -28,10 +28,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/idTVSignIn"
+            android:layout_below="@id/idTVSignUp"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:text="Please login to your account"
+            android:text="Create your account"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
             android:textSize="12sp" />
@@ -53,6 +53,28 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/background_gray"
             android:hint="Username"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        app:startIconDrawable="@drawable/ic_phone">
+
+        <EditText
+            android:id="@+id/idETPhone"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/background_gray"
+            android:hint="Phone"
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="20dp"
@@ -84,36 +106,48 @@
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/idTVForgetPass"
-        android:layout_width="wrap_content"
+ <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:padding="10dp"
-        android:textColor="@color/sky_blue"
-        android:text="Forgot Password?"
-        android:layout_gravity="end"
-        android:textStyle="bold" />
+        app:boxStrokeColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_password">
+
+        <EditText
+            android:id="@+id/idETPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/background_gray"
+            android:hint="Repeat Password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/idBtnLogin"
+        android:id="@+id/idBtnRegister"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/btn_blue_sky"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
-        android:text="Login"
+        android:text="Register"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp" />
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:id="@+id/idLayoutRegister"
+        android:id="@+id/idLayoutLogin"
         android:layout_width="match_parent"
         android:padding="10dp"
         android:gravity="center"
@@ -122,18 +156,18 @@
         android:layout_height="wrap_content"  >
 
         <TextView
-            android:id="@+id/idTVDescriptionRegister"
+            android:id="@+id/idTVDescriptionLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account?"
+            android:text="Have an account?"
             android:textAlignment="textEnd" />
 
         <TextView
-            android:id="@+id/idTVRegister"
+            android:id="@+id/idTVLogin"
             android:layout_width="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="Login"
             android:textColor="@color/sky_blue"
             android:textStyle="bold" />
 

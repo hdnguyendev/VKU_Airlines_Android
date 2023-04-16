@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".IntroFragment3">
+    tools:context=".fragments.IntroFragment3">
     <pl.droidsonroids.gif.GifImageView
         android:src="@drawable/plane"
         android:layout_width="120dp"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title 3"
+        android:text="Your Safety is Our Priority"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
@@ -26,18 +26,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Description is kasjhdkas jdasjdklasdjklasj dlaskdj aklsdjaskldj aslkdaskldasjkldjasdjasdjkasjkl"
+        android:text="Trust us to prioritize your safety with our stringent safety measures for a worry-free travel experience."
         android:textColor="@color/black"
         android:textSize="18sp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/idBtnGetStart"
         android:layout_width="200dp"
+        android:textAllCaps="false"
         android:layout_height="wrap_content"
-        android:text="GET START"
+        android:text="Get started"
         android:textSize="18sp"
         android:layout_marginTop="30dp"
-        android:background="@color/primaryColor"
+        android:background="@drawable/btn_blue_sky"
         android:textColor="@color/white" />
 
 </LinearLayout>
