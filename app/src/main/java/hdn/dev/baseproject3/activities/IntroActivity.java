@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,16 +29,19 @@ public class IntroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa
-//        SharedPreferences sharedPreferences = getSharedPreferences("checkLogin", Context.MODE_PRIVATE);
-//        if (sharedPreferences.getString("login", "").equals("true")) {
-//            // Người dùng đã đăng nhập
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//        } else
+        super.onCreate(savedInstanceState);
+//         Kiểm tra xem người dùng đã đăng nhập hay chưa
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("user", "");
+
+        if (!json.equals("")) {
+            // Người dùng đã đăng nhập
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else
         {
             // Người dùng chưa đăng nhập
-            super.onCreate(savedInstanceState);
+
             setContentView(R.layout.activity_intro);
             initView();
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

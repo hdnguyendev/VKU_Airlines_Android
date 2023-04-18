@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gray"
     android:clipToPadding="false"
-    android:paddingBottom="100dp"
     tools:context=".fragments.HomeFragment">
 
     <!-- Scrollable content -->
@@ -181,7 +181,9 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/idBtnSearchFlight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -220,7 +222,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/idRVNotify"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="210dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp" />
         </LinearLayout>

@@ -5,26 +5,31 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import hdn.dev.baseproject3.R;
-import hdn.dev.baseproject3.activities.MainActivity;
-import hdn.dev.baseproject3.adapter.NotifyRVAdapter;
+import hdn.dev.baseproject3.adapter.FlightsRVAdapter;
+import hdn.dev.baseproject3.models.Flight;
+import hdn.dev.baseproject3.models.FlightResponse;
+import hdn.dev.baseproject3.retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +39,8 @@ import hdn.dev.baseproject3.adapter.NotifyRVAdapter;
 public class HomeFragment extends Fragment {
     private RecyclerView notifyRV;
     private TextInputEditText inputDateDeparture, inputDateReturn;
+    AppCompatButton btn_search;
+    int firstVisibleItemPosition = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,7 +98,67 @@ public class HomeFragment extends Fragment {
         notifyRV = view.findViewById(R.id.idRVNotify);
         inputDateDeparture = view.findViewById(R.id.idTextInputDateDeparture);
         inputDateReturn = view.findViewById(R.id.idTextInputDateReturn);
+        btn_search = view.findViewById(R.id.idBtnSearchFlight);
+        Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights();
+        call.enqueue(new Callback<FlightResponse>() {
+            @Override
+            public void onResponse(Call<FlightResponse> call, Response<FlightResponse> response) {
+                FlightResponse flightResponse = response.body();
+                if (flightResponse.getStatus().equals("success")) {
+                    List<Flight> list = flightResponse.getData();
+                    FlightsRVAdapter adapter = new FlightsRVAdapter(list);
+                    notifyRV.setAdapter(adapter);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    notifyRV.setLayoutManager(layoutManager);
 
+
+                    notifyRV.setOnTouchListener(new View.OnTouchListener() {
+                        private float dx;
+                        private boolean isScrolling = false;
+
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                dx = event.getX();
+                                isScrolling = false;
+                                return true;
+                            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                                float deltaX = event.getX() - dx;
+                                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                                int visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1;
+                                int totalItemCount = adapter.getItemCount();
+
+                                if (Math.abs(deltaX) > 10 && !isScrolling) {
+                                    isScrolling = true;
+                                    if (deltaX < 0 && (firstVisibleItemPosition + visibleItemCount) < totalItemCount) {
+                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition + 1);
+                                    } else if (deltaX > 0 && firstVisibleItemPosition > 0) {
+                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition - 1);
+                                    }
+                                }
+                                return true;
+                            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                                isScrolling = false;
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                } else if (flightResponse.getStatus().equals("error")) {
+                    Toast.makeText(getContext(), "Có lỗi", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FlightResponse> call, Throwable t) {
+                System.out.println("Get flights failure");
+                System.out.println(t);
+            }
+        });
+
+        // Flight RecycleView
 
 
 //        List<String> list = new ArrayList<>();

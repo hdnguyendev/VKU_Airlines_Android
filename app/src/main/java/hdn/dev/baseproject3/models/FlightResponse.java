@@ -1,14 +1,16 @@
 package hdn.dev.baseproject3.models;
 
-public class LoginResponse {
+import java.util.List;
+
+public class FlightResponse {
     private String status;
     private String message;
-    private User data ;
+    private List<Flight> data;
 
-    public LoginResponse() {
+    public FlightResponse() {
     }
 
-    public LoginResponse(String status, String message, User data) {
+    public FlightResponse(String status, String message, List<Flight> data) {
         this.status = status;
         this.message = message;
         this.data = data;
@@ -30,17 +32,17 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public User getData() {
+    public List<Flight> getData() {
         return data;
     }
 
-    public void setData(User data) {
+    public void setData(List<Flight> data) {
         this.data = data;
     }
 
     @Override
     public String toString() {
-        return "LoginResponse{" +
+        return "Object Response {" +
                 "status='" + status + '\'' +
                 ", message='" + message + '\'' +
                 ", data=" + data +

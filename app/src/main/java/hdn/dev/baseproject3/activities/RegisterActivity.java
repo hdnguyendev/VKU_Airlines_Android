@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private AppCompatButton btn_register;
-    private EditText edt_username,edt_phone, edt_password, edt_password_confirm;
+    private EditText edt_fullName, edt_username, edt_phone, edt_password, edt_password_confirm;
     private TextView tv_login;
 
     @Override
@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initView() {
         btn_register = findViewById(R.id.idBtnRegister);
+        edt_fullName = findViewById(R.id.idETFullName);
         edt_username = findViewById(R.id.idETUsername);
         edt_phone = findViewById(R.id.idETPhone);
         edt_password = findViewById(R.id.idETPassword);
@@ -79,10 +80,11 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fullName = edt_fullName.getText().toString();
                 String username = edt_username.getText().toString();
                 String phone = edt_phone.getText().toString();
                 String password = edt_password.getText().toString();
-                RegisterRequest request = new RegisterRequest(username, phone, password);
+                RegisterRequest request = new RegisterRequest(fullName, username, phone, password);
                 Call<RegisterResponse> call = RetrofitClient.getInstance().getMyApi().register(request);
                 call.enqueue(new Callback<RegisterResponse>() {
                     @Override

@@ -4,21 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingBottom="100dp"
     tools:context=".fragments.ProfileFragment">
 
     <!-- Scrollable content -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_gravity="center_vertical"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/idIVBackground"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/background_blue_sky" />
+
+        <!--        Avatar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@id/idIVBackground"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-50dp"
+            android:elevation="12dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9"
+            app:cardCornerRadius="60dp">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/male"/>
+        </androidx.cardview.widget.CardView>
+        <!--        <ImageView-->
+        <!--            android:id="@+id/idIVAvatar"-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:layout_below="@id/idIVBackground"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:layout_marginTop="-50dp"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            android:src="@drawable/male" />-->
+
+
         <TextView
+            android:id="@+id/idTVFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idIVBackground"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/montserrat"
+            android:padding="10dp"
+            android:text="Hồ Đăng Nguyện"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/idTVUsename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idTVFullName"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat"
+            android:text="\@hdnguyendev" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Profile page" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/idTVInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_ticket_flight"
+                android:drawableStart="@drawable/ic_round_info_24"
+                android:drawableEnd="@drawable/ic_round_navigate_next_24"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/montserrat"
+                android:padding="15dp"
+                android:text="Information"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/idTVLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_ticket_flight"
+                android:drawableStart="@drawable/ic_round_logout_24"
+                android:drawableEnd="@drawable/ic_round_navigate_next_24"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/montserrat"
+                android:padding="15dp"
+                android:text="Log out"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
     </RelativeLayout>
+
+
 </androidx.core.widget.NestedScrollView>

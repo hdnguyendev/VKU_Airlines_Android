@@ -1,14 +1,25 @@
 package hdn.dev.baseproject3.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import hdn.dev.baseproject3.R;
+import hdn.dev.baseproject3.activities.LoginActivity;
+import hdn.dev.baseproject3.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +27,7 @@ import hdn.dev.baseproject3.R;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-
+    private TextView tv_info, tv_logOut, tv_fullName, tv_userName;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,7 +71,51 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tv_info = view.findViewById(R.id.idTVInfo);
+        tv_logOut = view.findViewById(R.id.idTVLogout);
+        tv_fullName = view.findViewById(R.id.idTVFullName);
+        tv_userName = view.findViewById(R.id.idTVUsename);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("user", "");
+        // Chuyển đổi chuỗi JSON thành đối tượng User
+        Gson gson = new Gson();
+        User user = gson.fromJson(json, User.class);
+
+        tv_fullName.setText(user.getFullname());
+        tv_userName.setText("@" + user.getUsername());
+
+        tv_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Thực hiện FragmentTransaction để thay thế Fragment hiện tại bằng Fragment mới
+                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                InfoFragment newFragment = new InfoFragment();
+                fragmentTransaction.replace(R.id.frame_container, newFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        tv_logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("user", "");
+                editor.apply();
+
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

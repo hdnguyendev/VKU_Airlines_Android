@@ -1,6 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/background_ticket_flight">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/idIVDirectFlight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/direct_flight" />
+
+    <TextView
+        android:id="@+id/idTVTimeFlight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idIVDirectFlight"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-32dp"
+        android:fontFamily="@font/montserrat"
+        android:text="1h 30m"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/idTVDepartureFlight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toLeftOf="@id/idIVDirectFlight"
+        android:fontFamily="@font/montserrat"
+        android:text="Ha Noi"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/idTVDestinationFlight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toRightOf="@id/idIVDirectFlight"
+        android:fontFamily="@font/montserrat"
+        android:text="HCM City"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:paddingStart="5dp"
+            android:alpha="0.8"
+            android:text="Date"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/idTVDepartureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:padding="5dp"
+            android:text="05/05/23 9:30"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="@font/montserrat"
+            android:paddingEnd="5dp"
+            android:alpha="0.8"
+            android:text="Flight Code"
+
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/idTVFlightCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="@font/montserrat"
+            android:padding="5dp"
+            android:text="VN225"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>
