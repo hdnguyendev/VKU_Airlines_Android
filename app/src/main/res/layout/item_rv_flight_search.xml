@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/background_white_border">
+    <LinearLayout
+        android:id="@+id/idLayoutFlightName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+        <TextView
+            android:id="@+id/idTVFlightNameSearch"
+            android:text="VKU Air"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/idTVFlightCodeSearch"
+            android:background="@drawable/btn_blue_sky"
+            android:text="VN255"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:padding="5dp"
+            android:fontFamily="@font/montserrat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/idLayoutDetail"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/idLayoutFlightName"
+       >
+
+        <ImageView
+            android:id="@+id/idIVDirectFlight"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_plane_blue_64" />
+
+
+        <TextView
+            android:id="@+id/idTVDepartureFlightSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/idIVDirectFlight"
+            android:fontFamily="@font/montserrat"
+            android:text="Ha Noi"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/idTVDestinationFlightSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/idIVDirectFlight"
+            android:fontFamily="@font/montserrat"
+            android:text="HCM City"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/idTVTimeDepartureSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idTVDepartureFlightSearch"
+            android:fontFamily="@font/montserrat"
+            android:text="8:00 AM" />
+
+        <TextView
+            android:id="@+id/idTVTimeDestinationSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idTVDestinationFlightSearch"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/montserrat"
+            android:text="11:00 AM" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/idTVDepartureFlightSearch"
+            android:fontFamily="@font/montserrat"
+            android:text="Departure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/idTVDestinationFlightSearch"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/montserrat"
+            android:text="Destination" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/idLayoutBookNow"
+        android:layout_width="match_parent"
+        android:layout_below="@id/idLayoutDetail"
+        android:layout_height="wrap_content" >
+        <ImageView
+            android:src="@drawable/plane_ticket"
+            android:layout_gravity="center_vertical"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:drawableTint="@color/sky_blue"
+            android:layout_weight="1"
+            android:text="Buy ticket now"
+            android:fontFamily="@font/montserrat"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@drawable/ic_round_navigate_next_24"
+            android:layout_gravity="center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:tint="@color/sky_blue" />
+    </LinearLayout>
+</RelativeLayout>

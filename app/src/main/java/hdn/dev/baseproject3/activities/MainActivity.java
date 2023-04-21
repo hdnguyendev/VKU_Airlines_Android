@@ -1,34 +1,20 @@
 package hdn.dev.baseproject3.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import hdn.dev.baseproject3.R;
-import hdn.dev.baseproject3.adapter.NotifyRVAdapter;
-import hdn.dev.baseproject3.fragments.HistoryFragment;
 import hdn.dev.baseproject3.fragments.HomeFragment;
 import hdn.dev.baseproject3.fragments.ProfileFragment;
+import hdn.dev.baseproject3.fragments.SearchFragment;
 import hdn.dev.baseproject3.fragments.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         loadFragment(fragment);
                         return true;
                     case R.id.idItemSearch:
-                        fragment = new HistoryFragment();
+                        fragment = new SearchFragment();
                         loadFragment(fragment);
                         return true;
                     case R.id.idItemSetting:

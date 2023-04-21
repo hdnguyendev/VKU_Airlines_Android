@@ -1,17 +1,15 @@
 package hdn.dev.baseproject3.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import hdn.dev.baseproject3.R;
 import hdn.dev.baseproject3.models.RegisterRequest;
@@ -37,11 +35,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initView() {
         btn_register = findViewById(R.id.idBtnRegister);
-        edt_fullName = findViewById(R.id.idETFullName);
-        edt_username = findViewById(R.id.idETUsername);
-        edt_phone = findViewById(R.id.idETPhone);
-        edt_password = findViewById(R.id.idETPassword);
-        edt_password_confirm = findViewById(R.id.idETPasswordConfirm);
+        edt_fullName = findViewById(R.id.idETFullNameRegister);
+        edt_username = findViewById(R.id.idETUsernameRegister);
+        edt_phone = findViewById(R.id.idETPhoneRegister);
+        edt_password = findViewById(R.id.idETPasswordRegister);
+        edt_password_confirm = findViewById(R.id.idETPasswordConfirmRegister);
         tv_login = findViewById(R.id.idTVLogin);
     }
 

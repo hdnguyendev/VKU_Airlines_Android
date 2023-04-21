@@ -1,7 +1,7 @@
 package hdn.dev.baseproject3.models;
 
 public class User {
-    private int id;
+    private Long id;
     private String username;
     private String password;
     private String phone;
@@ -14,7 +14,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String password, String phone, String email, String address, int year, String fullname, String avatar) {
+    public User(Long id, String username, String password, String phone, String email, String address, int year, String fullname, String avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -26,11 +26,11 @@ public class User {
         this.avatar = avatar;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

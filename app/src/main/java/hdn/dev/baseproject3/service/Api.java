@@ -1,23 +1,29 @@
 package hdn.dev.baseproject3.service;
 
-import java.util.List;
+import java.util.Map;
 
+import hdn.dev.baseproject3.models.FlightResponse;
 import hdn.dev.baseproject3.models.LoginRequest;
 import hdn.dev.baseproject3.models.LoginResponse;
-import hdn.dev.baseproject3.models.FlightResponse;
 import hdn.dev.baseproject3.models.RegisterRequest;
 import hdn.dev.baseproject3.models.RegisterResponse;
+import hdn.dev.baseproject3.models.SeatResponse;
 import hdn.dev.baseproject3.models.User;
+import hdn.dev.baseproject3.models.UserResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface Api {
-    String BASE_URL = "http://192.168.1.6:8080/api/v1/";
+    String BASE_URL = "http://192.168.1.3:8080/api/v1/";
 
-    @GET("users")
-    Call<List<User>> getUsers();
+
+    @PUT("user/{id}")
+    Call<UserResponse> updateUser(@Path("id") Long id, @Body User user);
 
     @POST("login")
     Call<LoginResponse> checkLogin(@Body LoginRequest request);
@@ -26,7 +32,10 @@ public interface Api {
     Call<RegisterResponse> register(@Body RegisterRequest request);
 
     @GET("flights")
-    Call<FlightResponse> getFights();
+    Call<FlightResponse> getFights(@QueryMap Map<String, String> query);
+
+    @GET("seats/{flight_code}")
+    Call<SeatResponse> getSeatsByFlightCode(@Path("flight_code") String flight_code);
 }
 
 //

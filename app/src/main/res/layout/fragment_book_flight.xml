@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_back"
+    tools:context=".fragments.BookFlightFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/idIVBackground"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/background_blue_sky" />
+
+        <!--        Logo-->
+        <ImageView
+            android:id="@+id/idLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/idIVBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:src="@drawable/ic_round_arrow_back_ios_24" />
+
+        <!--        info flight-->
+        <LinearLayout
+            android:id="@+id/IDLayoutInfoFlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idLogo"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_white_border"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/idIVDirectFlight"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_plane_blue_64" />
+
+
+                <TextView
+                    android:id="@+id/idTVDepartureFlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/idIVDirectFlight"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Ha Noi"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/idTVDestinationFlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/idIVDirectFlight"
+                    android:fontFamily="@font/montserrat"
+                    android:text="HCM City"
+                    android:textAlignment="textEnd"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/idTVTimeDeparture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/idTVDepartureFlight"
+                    android:fontFamily="@font/montserrat"
+                    android:text="8:00 AM" />
+
+                <TextView
+                    android:id="@+id/idTVTimeDestination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/idTVDestinationFlight"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/montserrat"
+                    android:text="11:00 AM" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/idTVDepartureFlight"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Departure" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/idTVDestinationFlight"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Destination" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <!--        Info book flight-->
+        <LinearLayout
+            android:id="@+id/idLayoutBookFlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/IDLayoutInfoFlight"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_white_border"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/idTVDateFlight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawableStart="@drawable/ic_date"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:padding="10dp"
+                    android:text="Thus, 21.09.2023"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/idTVDateFlight"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:boxStrokeColor="@android:color/transparent"
+                                app:boxStrokeWidth="0dp"
+                                app:startIconDrawable="@drawable/ic_round_star_24">
+
+                                <EditText
+                                    android:id="@+id/idETClass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/background_gray"
+                                    android:enabled="false"
+                                    android:hint="Class"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:text="Ghế hạng phổ thông"
+                                    android:textSize="16sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_border"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:boxStrokeColor="@android:color/transparent"
+                                app:boxStrokeWidth="0dp"
+                                app:startIconDrawable="@drawable/ic_person">
+
+                                <EditText
+                                    android:id="@+id/idETPerson"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/background_gray"
+                                    android:enabled="false"
+                                    android:hint="Person"
+                                    android:inputType="number"
+                                    android:maxLines="1"
+                                    android:text="1"
+                                    android:textSize="16sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:boxStrokeColor="@android:color/transparent"
+                                app:boxStrokeWidth="0dp"
+                                app:startIconDrawable="@drawable/ic_seat_24_black">
+
+                                <EditText
+                                    android:id="@+id/idETSeat"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/background_gray"
+                                    android:hint="Seat"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:textSize="16sp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+<!--                                <androidx.appcompat.widget.AppCompatButton-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:textColor="@color/sky_blue"-->
+<!--                                    android:drawablePadding="10dp"-->
+<!--                                    android:text="Select Seat"-->
+<!--                                    android:textAllCaps="false"-->
+<!--                                    android:background="@drawable/background_gray"-->
+<!--                                    android:layout_height="match_parent" />-->
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat"
+                                android:padding="5dp"
+                                android:text="Flight Time" />
+
+                            <TextView
+                                android:id="@+id/idTVTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_round_access_time_24"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/montserrat"
+                                android:gravity="center_vertical"
+                                android:padding="10dp"
+                                android:text="3 Hour 0 Minutes" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/idTVMoney"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="0 vnd"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/idBtnBuyTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idLayoutBookFlight"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:height="60dp"
+            android:background="@drawable/btn_blue_sky"
+            android:fontFamily="@font/montserrat"
+            android:text="Buy"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

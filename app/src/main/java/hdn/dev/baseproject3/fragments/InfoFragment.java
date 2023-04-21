@@ -1,22 +1,37 @@
 package hdn.dev.baseproject3.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
 import hdn.dev.baseproject3.R;
+import hdn.dev.baseproject3.models.User;
+import hdn.dev.baseproject3.models.UserResponse;
+import hdn.dev.baseproject3.retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +40,9 @@ import hdn.dev.baseproject3.R;
  */
 public class InfoFragment extends Fragment {
     private ImageView image_back;
-    private EditText edt_year;
+    private EditText edt_year, edt_phone, edt_address, edt_email, edt_oldPassword, edt_newPassword, edt_fullname, edt_username;
+    private AppCompatButton btn_update;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -78,13 +95,42 @@ public class InfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         image_back = view.findViewById(R.id.idIVBack);
+
+        edt_fullname = view.findViewById(R.id.idETFullNameInfo);
+        edt_username = view.findViewById(R.id.idETUsernameInfo);
+        edt_phone = view.findViewById(R.id.idETPhoneRegister);
+        edt_email = view.findViewById(R.id.idETEmail);
+        edt_address = view.findViewById(R.id.idETAddress);
+        edt_year = view.findViewById(R.id.idETYear);
+        edt_oldPassword = view.findViewById(R.id.idETPasswordOld);
+        edt_newPassword = view.findViewById(R.id.idETPasswordNew);
+
+        btn_update = view.findViewById(R.id.idBtnUpdate);
+
+
+        // Get data ...
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("user", "");
+        // Chuyển đổi chuỗi JSON thành đối tượng User
+        Gson gson = new Gson();
+        User user = gson.fromJson(json, User.class);
+
+        edt_fullname.setText(user.getFullname());
+        edt_username.setText(user.getUsername());
+        edt_phone.setText(user.getPhone());
+        edt_address.setText(user.getAddress());
+        edt_email.setText(user.getEmail());
+        edt_year.setText(String.valueOf(user.getYear()));
+
+
+        // Back to Before Fragment
         image_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().popBackStack();
             }
         });
-        edt_year = view.findViewById(R.id.idETYear);
+        // Pick year
         edt_year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +150,61 @@ public class InfoFragment extends Fragment {
                 datePickerDialog.getDatePicker().setSpinnersShown(true);
 
                 datePickerDialog.show();
+            }
+        });
+        // Update info user
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!edt_oldPassword.getText().toString().equals(user.getPassword())) {
+                    edt_oldPassword.setError("Wrong current password");
+                    return;
+                }
+                ProgressDialog dialog = new ProgressDialog(getContext());
+                dialog.setMessage("Loading ....");
+                dialog.setCancelable(false);
+                dialog.show();
+                user.setPhone(edt_phone.getText().toString());
+                user.setEmail(edt_email.getText().toString());
+                user.setAddress(edt_address.getText().toString());
+                user.setYear(Integer.parseInt(edt_year.getText().toString()));
+                user.setFullname(edt_fullname.getText().toString());
+                user.setUsername(edt_username.getText().toString());
+
+                if (!edt_newPassword.getText().toString().equals("")) {
+                    user.setPassword(edt_newPassword.getText().toString());
+                }
+                System.out.println(user);
+                Call<UserResponse> call = RetrofitClient.getInstance().getMyApi().updateUser(user.getId(), user);
+                call.enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        UserResponse userResponse = response.body();
+                        if (userResponse.getStatus().equals("success")) {
+                            Log.i(TAG, "onResponse: " + userResponse.getMessage());
+                            User user = userResponse.getData();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(user);
+                            System.out.println(json);
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("user", json);
+                            editor.apply();
+                            getFragmentManager().popBackStack();
+
+                        } else {
+                            Toast.makeText(getContext(), userResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                    }
+                });
+                dialog.dismiss();
+
+
             }
         });
     }

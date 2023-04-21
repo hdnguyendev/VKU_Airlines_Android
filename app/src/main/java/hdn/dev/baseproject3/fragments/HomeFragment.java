@@ -1,26 +1,30 @@
 package hdn.dev.baseproject3.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import hdn.dev.baseproject3.R;
 import hdn.dev.baseproject3.adapter.FlightsRVAdapter;
@@ -40,7 +44,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView notifyRV;
     private TextInputEditText inputDateDeparture, inputDateReturn;
     AppCompatButton btn_search;
-    int firstVisibleItemPosition = 0;
+//    int firstVisibleItemPosition = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,13 +84,10 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -99,52 +100,82 @@ public class HomeFragment extends Fragment {
         inputDateDeparture = view.findViewById(R.id.idTextInputDateDeparture);
         inputDateReturn = view.findViewById(R.id.idTextInputDateReturn);
         btn_search = view.findViewById(R.id.idBtnSearchFlight);
-        Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights();
+        // Lấy ngày hiện tại truyền vào param => lấy những chuyến bay sau thời gian hiện tại
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("date",currentDateTime);
+
+        Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights(queryParams);
         call.enqueue(new Callback<FlightResponse>() {
             @Override
             public void onResponse(Call<FlightResponse> call, Response<FlightResponse> response) {
                 FlightResponse flightResponse = response.body();
                 if (flightResponse.getStatus().equals("success")) {
+                    ProgressDialog dialog = new ProgressDialog(getContext());
+
+                    dialog.setMessage("Loading ....");
+                    dialog.setCancelable(false);
+                    dialog.show();
+                    // Get data ...
+                    // Flight RecycleView
                     List<Flight> list = flightResponse.getData();
-                    FlightsRVAdapter adapter = new FlightsRVAdapter(list);
+                    FlightsRVAdapter adapter = new FlightsRVAdapter(getContext(), list);
                     notifyRV.setAdapter(adapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                     notifyRV.setLayoutManager(layoutManager);
-
-
-                    notifyRV.setOnTouchListener(new View.OnTouchListener() {
-                        private float dx;
-                        private boolean isScrolling = false;
-
+                    adapter.setOnItemClickListener(new FlightsRVAdapter.OnItemClickListener() {
                         @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                dx = event.getX();
-                                isScrolling = false;
-                                return true;
-                            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                                float deltaX = event.getX() - dx;
-                                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                                int visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1;
-                                int totalItemCount = adapter.getItemCount();
+                        public void onItemClick(Flight data) {
+                            Bundle bundle = new Bundle();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(data);
 
-                                if (Math.abs(deltaX) > 10 && !isScrolling) {
-                                    isScrolling = true;
-                                    if (deltaX < 0 && (firstVisibleItemPosition + visibleItemCount) < totalItemCount) {
-                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition + 1);
-                                    } else if (deltaX > 0 && firstVisibleItemPosition > 0) {
-                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition - 1);
-                                    }
-                                }
-                                return true;
-                            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                                isScrolling = false;
-                                return true;
-                            }
-                            return false;
+                            bundle.putString("flight_data", json);
+
+                            BookFlightFragment bookFlightFragment = new BookFlightFragment();
+                            bookFlightFragment.setArguments(bundle);
+
+
+                            // Thay thế Fragment hiện tại bằng một Fragment mới
+                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction().replace(R.id.frame_container, bookFlightFragment).addToBackStack(null).commit();
                         }
                     });
+                    dialog.dismiss();
+//                    notifyRV.setOnTouchListener(new View.OnTouchListener() {
+//                        private float dx;
+//                        private boolean isScrolling = false;
+//
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                                dx = event.getX();
+//                                isScrolling = false;
+//                                return true;
+//                            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                                float deltaX = event.getX() - dx;
+//                                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+//                                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+//                                int visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1;
+//                                int totalItemCount = adapter.getItemCount();
+//
+//                                if (Math.abs(deltaX) > 10 && !isScrolling) {
+//                                    isScrolling = true;
+//                                    if (deltaX < 0 && (firstVisibleItemPosition + visibleItemCount) < totalItemCount) {
+//                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition + 1);
+//                                    } else if (deltaX > 0 && firstVisibleItemPosition > 0) {
+//                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition - 1);
+//                                    }
+//                                }
+//                                return true;
+//                            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                                isScrolling = false;
+//                                return true;
+//                            }
+//                            return false;
+//                        }
+//                    });
 
                 } else if (flightResponse.getStatus().equals("error")) {
                     Toast.makeText(getContext(), "Có lỗi", Toast.LENGTH_SHORT).show();
@@ -158,19 +189,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Flight RecycleView
-
-
-//        List<String> list = new ArrayList<>();
-//        for (int i = 1; i <= 10; i++) {
-//            list.add("Title " + i);
-//        }
-//        /// Notify RecycleView
-//        NotifyRVAdapter adapter = new NotifyRVAdapter(list);
-//        notifyRV.setAdapter(adapter);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        notifyRV.setLayoutManager(layoutManager);
         // Pick day
         inputDateDeparture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,15 +200,11 @@ public class HomeFragment extends Fragment {
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
                 // Tạo DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                // Xử lý khi người dùng chọn ngày
-                                String date = dayOfMonth + "/" + (month + 1) + "/" + year;
-                                inputDateDeparture.setText(date);
-                            }
-                        }, year, month, dayOfMonth);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view12, year12, month12, dayOfMonth12) -> {
+                    // Xử lý khi người dùng chọn ngày
+                    String date = dayOfMonth12 + "/" + (month12 + 1) + "/" + year12;
+                    inputDateDeparture.setText(date);
+                }, year, month, dayOfMonth);
 
                 // Hiển thị DatePickerDialog
                 datePickerDialog.show();
@@ -206,15 +220,11 @@ public class HomeFragment extends Fragment {
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
                 // Tạo DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                // Xử lý khi người dùng chọn ngày
-                                String date = dayOfMonth + "/" + (month + 1) + "/" + year;
-                                inputDateReturn.setText(date);
-                            }
-                        }, year, month, dayOfMonth);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year1, month1, dayOfMonth1) -> {
+                    // Xử lý khi người dùng chọn ngày
+                    String date = dayOfMonth1 + "/" + (month1 + 1) + "/" + year1;
+                    inputDateReturn.setText(date);
+                }, year, month, dayOfMonth);
 
                 // Hiển thị DatePickerDialog
                 datePickerDialog.show();

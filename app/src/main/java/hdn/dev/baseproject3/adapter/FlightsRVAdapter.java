@@ -1,5 +1,6 @@
 package hdn.dev.baseproject3.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,17 @@ import hdn.dev.baseproject3.R;
 import hdn.dev.baseproject3.models.Flight;
 
 public class FlightsRVAdapter extends RecyclerView.Adapter<FlightsRVAdapter.FlightViewHolder> {
+    Context context;
     List<Flight> list;
-
-    public FlightsRVAdapter(List<Flight> list) {
+    OnItemClickListener mListener;
+    public interface OnItemClickListener {
+        void onItemClick(Flight data);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+    public FlightsRVAdapter(Context context, List<Flight> list) {
+        this.context = context;
         this.list = list;
     }
 
@@ -68,7 +77,7 @@ public class FlightsRVAdapter extends RecyclerView.Adapter<FlightsRVAdapter.Flig
             Duration duration = Duration.between(start, end);
             long hours = duration.toHours();
             long minutes = duration.toMinutes() % 60;
-            holder.tv_timeFlight.setText(hours +"h " + minutes + "m");
+            holder.tv_timeFlight.setText(hours + "h " + minutes + "m");
 
         }
 
@@ -76,6 +85,8 @@ public class FlightsRVAdapter extends RecyclerView.Adapter<FlightsRVAdapter.Flig
         holder.tv_departure.setText(flight.getDeparture());
         holder.tv_destination.setText(flight.getDestination());
         holder.tv_flightCode.setText(flight.getFlightCode());
+
+
 
     }
 
@@ -98,7 +109,15 @@ public class FlightsRVAdapter extends RecyclerView.Adapter<FlightsRVAdapter.Flig
             tv_timeFlight = itemView.findViewById(R.id.idTVTimeFlight);
             tv_timeDeparture = itemView.findViewById(R.id.idTVDepartureTime);
             tv_flightCode = itemView.findViewById(R.id.idTVFlightCode);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && mListener != null) {
+                        mListener.onItemClick(list.get(position));
+                    }
+                }
+            });
         }
     }
 }

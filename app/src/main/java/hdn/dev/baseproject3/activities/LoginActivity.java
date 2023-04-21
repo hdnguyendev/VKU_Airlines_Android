@@ -1,17 +1,16 @@
 package hdn.dev.baseproject3.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.gson.Gson;
 
@@ -109,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initView() {
         btn_login = findViewById(R.id.idBtnLogin);
-        edt_username = findViewById(R.id.idETUsername);
-        edt_password = findViewById(R.id.idETPassword);
+        edt_username = findViewById(R.id.idETUsernameLogin);
+        edt_password = findViewById(R.id.idETPasswordLogin);
         tv_forget = findViewById(R.id.idTVForgetPass);
         tv_register = findViewById(R.id.idTVRegister);
     }
