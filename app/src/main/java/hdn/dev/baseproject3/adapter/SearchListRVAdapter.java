@@ -13,7 +13,6 @@ import java.util.List;
 
 import hdn.dev.baseproject3.R;
 import hdn.dev.baseproject3.models.Flight;
-import hdn.dev.baseproject3.utils.CovertCityName;
 import hdn.dev.baseproject3.utils.FormatDay;
 
 public class SearchListRVAdapter extends RecyclerView.Adapter<SearchListRVAdapter.SearchListViewHolder> {
@@ -44,14 +43,15 @@ public class SearchListRVAdapter extends RecyclerView.Adapter<SearchListRVAdapte
     @Override
     public void onBindViewHolder(@NonNull SearchListViewHolder holder, int position) {
         Flight flight = list.get(position);
-        flight.setDeparture(CovertCityName.convertCityName(flight.getDeparture()));
-        flight.setDestination(CovertCityName.convertCityName(flight. getDestination()));
         holder.idTVFlightNameSearch.setText(flight.getFlightName());
-                holder.idTVFlightCodeSearch.setText(flight.getFlightCode());
-        holder.idTVDepartureFlightSearch.setText(flight.getDeparture());
-                holder.idTVDestinationFlightSearch.setText(flight.getDestination());
+        holder.idTVFlightCodeSearch.setText(flight.getFlightCode());
+        holder.idTVDepartureFlightSearch.setText(flight.getDepartureSort());
+        holder.idTVDestinationFlightSearch.setText(flight.getDestinationSort());
+        holder.idTVDepartureFullSearch.setText(flight.getDeparture());
+        holder.idTVDestinationFullSearch.setText(flight.getDestination());
         holder.idTVTimeDepartureSearch.setText(FormatDay.formatTime(flight.getDepartureTime()));
-                holder.idTVTimeDestinationSearch.setText(FormatDay.formatTime(flight.getArrivalTime()));
+        holder.idTVTimeDestinationSearch.setText(FormatDay.formatTime(flight.getArrivalTime()));
+        holder.idTVDateSearch.setText(FormatDay.formatDateWithoutTime(flight.getDepartureTime()));
     }
 
     @Override
@@ -60,7 +60,10 @@ public class SearchListRVAdapter extends RecyclerView.Adapter<SearchListRVAdapte
     }
 
     public class SearchListViewHolder extends RecyclerView.ViewHolder {
-        private TextView idTVFlightNameSearch, idTVFlightCodeSearch, idTVDepartureFlightSearch, idTVDestinationFlightSearch, idTVTimeDepartureSearch, idTVTimeDestinationSearch;
+        private TextView idTVFlightNameSearch, idTVFlightCodeSearch, idTVDepartureFlightSearch, idTVDestinationFlightSearch, idTVTimeDepartureSearch, idTVTimeDestinationSearch,
+        idTVDepartureFullSearch,idTVDestinationFullSearch,idTVDateSearch
+
+                ;
 
         public SearchListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,7 +75,9 @@ public class SearchListRVAdapter extends RecyclerView.Adapter<SearchListRVAdapte
 
             idTVTimeDepartureSearch = itemView.findViewById(R.id.idTVTimeDepartureSearch);
             idTVTimeDestinationSearch = itemView.findViewById(R.id.idTVTimeDestinationSearch);
-
+            idTVDepartureFullSearch = itemView.findViewById(R.id.idTVDepartureFullSearch);
+            idTVDestinationFullSearch = itemView.findViewById(R.id.idTVDestinationFullSearch);
+            idTVDateSearch = itemView.findViewById(R.id.idTVDateSearch);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

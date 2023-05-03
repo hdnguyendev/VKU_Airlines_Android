@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,6 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
@@ -42,6 +44,7 @@ public class InfoFragment extends Fragment {
     private ImageView image_back;
     private EditText edt_year, edt_phone, edt_address, edt_email, edt_oldPassword, edt_newPassword, edt_fullname, edt_username;
     private AppCompatButton btn_update;
+    protected ProgressDialog mProgressDialog;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +75,30 @@ public class InfoFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.idBottomNavView);
+        bottomNavigationView.setVisibility(View.GONE);
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.idBottomAppBar);
+        bottomAppBar.setVisibility(View.GONE);
+        FloatingActionButton fab = getActivity().findViewById(R.id.idFABBookFlight);
+        fab.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.idBottomNavView);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.idBottomAppBar);
+        bottomAppBar.setVisibility(View.VISIBLE);
+        FloatingActionButton fab = getActivity().findViewById(R.id.idFABBookFlight);
+        fab.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -138,17 +165,11 @@ public class InfoFragment extends Fragment {
                 int year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                edt_year.setText(String.valueOf(year));
-                            }
-                        },
+                        (view1, year1, monthOfYear, dayOfMonth) -> edt_year.setText(String.valueOf(year1)),
                         year, 0, 1); // Lưu ý: tháng và ngày được thiết lập là 0 và 1 tương ứng để hiển thị một năm duy nhất
 
                 datePickerDialog.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog.getDatePicker().setSpinnersShown(true);
-
                 datePickerDialog.show();
             }
         });
@@ -160,22 +181,18 @@ public class InfoFragment extends Fragment {
                     edt_oldPassword.setError("Wrong current password");
                     return;
                 }
-                ProgressDialog dialog = new ProgressDialog(getContext());
-                dialog.setMessage("Loading ....");
-                dialog.setCancelable(false);
-                dialog.show();
                 user.setPhone(edt_phone.getText().toString());
                 user.setEmail(edt_email.getText().toString());
                 user.setAddress(edt_address.getText().toString());
-                user.setYear(Integer.parseInt(edt_year.getText().toString()));
+                user.setYear((long) Integer.parseInt(edt_year.getText().toString()));
                 user.setFullname(edt_fullname.getText().toString());
                 user.setUsername(edt_username.getText().toString());
-
                 if (!edt_newPassword.getText().toString().equals("")) {
                     user.setPassword(edt_newPassword.getText().toString());
                 }
                 System.out.println(user);
-                Call<UserResponse> call = RetrofitClient.getInstance().getMyApi().updateUser(user.getId(), user);
+                mProgressDialog = ProgressDialog.show(getContext(), "Please wait", "Wait a few seconds", true);
+                Call<UserResponse> call = RetrofitClient.getInstance().getMyApi().updateUser(user.getUserId(), user);
                 call.enqueue(new Callback<UserResponse>() {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -195,16 +212,15 @@ public class InfoFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), userResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        mProgressDialog.dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                        Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                        mProgressDialog.dismiss();
                     }
                 });
-                dialog.dismiss();
-
-
             }
         });
     }

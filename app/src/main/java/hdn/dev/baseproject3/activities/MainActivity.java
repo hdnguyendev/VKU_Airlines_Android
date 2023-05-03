@@ -16,6 +16,7 @@ import hdn.dev.baseproject3.fragments.HomeFragment;
 import hdn.dev.baseproject3.fragments.ProfileFragment;
 import hdn.dev.baseproject3.fragments.SearchFragment;
 import hdn.dev.baseproject3.fragments.SettingFragment;
+import hdn.dev.baseproject3.utils.NotificationCustom;
 
 public class MainActivity extends AppCompatActivity {
     private BottomAppBar bottomAppBar;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new HomeFragment());
         initView();
         initController();
+        new NotificationCustom(getApplicationContext());
     }
 
     private void initController() {

@@ -1,37 +1,51 @@
+
 package hdn.dev.baseproject3.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class User {
-    private Long id;
+
+    @SerializedName("userId")
+    @Expose
+    private Long userId;
+    @SerializedName("username")
+    @Expose
     private String username;
+    @SerializedName("password")
+    @Expose
     private String password;
+    @SerializedName("phone")
+    @Expose
     private String phone;
+    @SerializedName("email")
+    @Expose
     private String email;
+    @SerializedName("address")
+    @Expose
     private String address;
-    private int year;
+    @SerializedName("year")
+    @Expose
+    private Long year;
+    @SerializedName("fullname")
+    @Expose
     private String fullname;
+    @SerializedName("avatar")
+    @Expose
     private String avatar;
+    @SerializedName("nationality")
+    @Expose
+    private String nationality;
+    @SerializedName("gender")
+    @Expose
+    private Boolean gender;
 
-    public User() {
+    public Long getUserId() {
+        return userId;
     }
 
-    public User(Long id, String username, String password, String phone, String email, String address, int year, String fullname, String avatar) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.year = year;
-        this.fullname = fullname;
-        this.avatar = avatar;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -74,11 +88,11 @@ public class User {
         this.address = address;
     }
 
-    public int getYear() {
+    public Long getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Long year) {
         this.year = year;
     }
 
@@ -98,10 +112,26 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
@@ -110,6 +140,8 @@ public class User {
                 ", year=" + year +
                 ", fullname='" + fullname + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", gender=" + gender +
                 '}';
     }
 }

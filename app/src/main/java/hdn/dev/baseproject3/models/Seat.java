@@ -8,24 +8,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class Seat {
 
-    @SerializedName("seat_id")
+    @SerializedName("seatId")
     @Expose
     private Integer seatId;
-    @SerializedName("flight")
+    @SerializedName("flightCode")
     @Expose
-    private Flight flight;
+    private String flightCode;
+    @SerializedName("ticketId")
+    @Expose
+    private String ticketId;
     @SerializedName("seat_name")
     @Expose
     private String seatName;
+    @SerializedName("available")
+    @Expose
+    private Boolean available;
     @SerializedName("price")
     @Expose
     private Double price;
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("is_available")
-    @Expose
-    private Boolean isAvailable;
 
     public Integer getSeatId() {
         return seatId;
@@ -35,12 +38,20 @@ public class Seat {
         this.seatId = seatId;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public String getFlightCode() {
+        return flightCode;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setFlightCode(String flightCode) {
+        this.flightCode = flightCode;
+    }
+
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getSeatName() {
@@ -49,6 +60,14 @@ public class Seat {
 
     public void setSeatName(String seatName) {
         this.seatName = seatName;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public Double getPrice() {
@@ -65,50 +84,6 @@ public class Seat {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getIsAvailable() {
-        return isAvailable;
-    }
-
-    public void setIsAvailable(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Seat.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("seatId");
-        sb.append('=');
-        sb.append(((this.seatId == null) ? "<null>" : this.seatId));
-        sb.append(',');
-        sb.append("flight");
-        sb.append('=');
-        sb.append(((this.flight == null) ? "<null>" : this.flight));
-        sb.append(',');
-        sb.append("seatName");
-        sb.append('=');
-        sb.append(((this.seatName == null) ? "<null>" : this.seatName));
-        sb.append(',');
-        sb.append("price");
-        sb.append('=');
-        sb.append(((this.price == null) ? "<null>" : this.price));
-        sb.append(',');
-        sb.append("description");
-        sb.append('=');
-        sb.append(((this.description == null) ? "<null>" : this.description));
-        sb.append(',');
-        sb.append("isAvailable");
-        sb.append('=');
-        sb.append(((this.isAvailable == null) ? "<null>" : this.isAvailable));
-        sb.append(',');
-        if (sb.charAt((sb.length() - 1)) == ',') {
-            sb.setCharAt((sb.length() - 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
     }
 
 }

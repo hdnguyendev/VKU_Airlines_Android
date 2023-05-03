@@ -40,6 +40,28 @@ public class FormatDay {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatMMMMdd(String input) {
+        LocalDateTime dateTime = LocalDateTime.parse(input);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM, dd");
+        String formattedDate = dateTime.format(formatter);
+        return formattedDate;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatTimeBooking(String input) {
+        LocalDateTime dateTime = LocalDateTime.parse(input);
+        int hour = dateTime.getHour();
+        int minute = dateTime.getMinute();
+        int day = dateTime.getDayOfMonth();
+        int month = dateTime.getMonthValue();
+        int year = dateTime.getYear();
+        String formattedDateTime = String.format("%d:%02d %02d/%02d/%d", hour, minute, day, month, year);
+
+        return formattedDateTime;
+
+    }
+
     public static String formatTime(String inputTime) {
         DateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
         DateFormat outputDateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -69,4 +91,6 @@ public class FormatDay {
         }
         return String.format("%d Hours %d minutes", hours, minutes);
     }
+
+
 }

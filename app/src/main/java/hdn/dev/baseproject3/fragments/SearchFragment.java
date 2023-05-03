@@ -1,6 +1,7 @@
 package hdn.dev.baseproject3.fragments;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,8 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import hdn.dev.baseproject3.R;
 import hdn.dev.baseproject3.adapter.SearchListRVAdapter;
@@ -35,6 +42,7 @@ import retrofit2.Response;
  */
 public class SearchFragment extends Fragment {
     private RecyclerView idRVSearchFlight;
+    protected ProgressDialog mProgressDialog;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -82,55 +90,97 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
 
-        Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights(new HashMap<>());
+        callApi();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void callApi() {
+        Bundle bundle = getArguments();
+
+        mProgressDialog = ProgressDialog.show(getContext(), "Please wait", "Wait a few seconds", true);
+        // Lấy ngày hiện tại truyền vào param => lấy những chuyến bay sau thời gian hiện tại
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("date", currentDateTime);
+        if (bundle != null) {
+            if (bundle.getString("departure") != null) {
+                queryParams.put("departure", bundle.getString("departure"));
+
+            }
+            if (bundle.getString("destination") != null) {
+                queryParams.put("destination", bundle.getString("destination"));
+
+            }
+            if (bundle.getString("time_departure") != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+                LocalDate date = LocalDate.parse(bundle.getString("time_departure"), formatter);
+                String formattedDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                queryParams.put("time_departure", formattedDate);
+
+            }
+            if (bundle.getString("time_destination") != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+                LocalDate date = LocalDate.parse(bundle.getString("time_destination"), formatter);
+                String formattedDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                queryParams.put("time_destination", formattedDate);
+
+            }
+            if (bundle.getString("person") != null) {
+                queryParams.put("person", bundle.getString("person"));
+
+            }
+
+        }
+        System.out.println(queryParams);
+        Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights(queryParams);
         call.enqueue(new Callback<FlightResponse>() {
             @Override
             public void onResponse(Call<FlightResponse> call, Response<FlightResponse> response) {
                 FlightResponse flightResponse = response.body();
                 if (flightResponse.getStatus().equals("success")) {
-                    ProgressDialog dialog = new ProgressDialog(getContext());
                     // Search Flights RecycleView
                     List<Flight> list = flightResponse.getData();
                     SearchListRVAdapter adapter = new SearchListRVAdapter(getContext(), list);
                     idRVSearchFlight.setAdapter(adapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     idRVSearchFlight.setLayoutManager(layoutManager);
-                    adapter.setOnItemClickListener(new SearchListRVAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(Flight data) {
-                            Bundle bundle = new Bundle();
-                            Gson gson = new Gson();
-                            String json = gson.toJson(data);
+                    adapter.setOnItemClickListener(data -> {
+                        Bundle bundle = new Bundle();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(data);
 
-                            bundle.putString("flight_data", json);
+                        bundle.putString("flight_data", json);
 
-                            BookFlightFragment bookFlightFragment = new BookFlightFragment();
-                            bookFlightFragment.setArguments(bundle);
+                        BookFlightFragment bookFlightFragment = new BookFlightFragment();
+                        bookFlightFragment.setArguments(bundle);
 
-
-                            // Thay thế Fragment hiện tại bằng một Fragment mới
-                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().replace(R.id.frame_container, bookFlightFragment).addToBackStack(null).commit();
-                        }
+                        // Thay thế Fragment hiện tại bằng một Fragment mới
+                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frame_container, bookFlightFragment).addToBackStack(null).commit();
                     });
                 } else if (flightResponse.getStatus().equals("error")) {
-                    Toast.makeText(getContext(), "Có lỗi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), flightResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                mProgressDialog.dismiss();
+
             }
 
             @Override
             public void onFailure(Call<FlightResponse> call, Throwable t) {
+                mProgressDialog.dismiss();
                 System.out.println("Get flights failure");
                 System.out.println(t);
             }
         });
-
     }
 
     private void initView(View view) {

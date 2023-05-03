@@ -4,16 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -27,7 +26,7 @@ import hdn.dev.baseproject3.models.User;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    private TextView tv_info, tv_logOut, tv_fullName, tv_userName;
+    private TextView tv_info, tv_logOut, tv_fullName, tv_userName, tv_history;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -82,7 +81,9 @@ public class ProfileFragment extends Fragment {
         tv_info = view.findViewById(R.id.idTVInfo);
         tv_logOut = view.findViewById(R.id.idTVLogout);
         tv_fullName = view.findViewById(R.id.idTVFullName);
-        tv_userName = view.findViewById(R.id.idTVUsename);
+        tv_userName = view.findViewById(R.id.idTVUsername);
+        tv_history = view.findViewById(R.id.idTVHistory);
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String json = sharedPreferences.getString("user", "");
         // Chuyển đổi chuỗi JSON thành đối tượng User
@@ -91,6 +92,14 @@ public class ProfileFragment extends Fragment {
 
         tv_fullName.setText(user.getFullname());
         tv_userName.setText("@" + user.getUsername());
+
+        tv_history.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            HistoryFragment newFragment = new HistoryFragment();
+            fragmentTransaction.replace(R.id.frame_container, newFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         tv_info.setOnClickListener(new View.OnClickListener() {
             @Override

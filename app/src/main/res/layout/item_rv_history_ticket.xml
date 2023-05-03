@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+
+        android:layout_weight="1"
+        android:background="@drawable/background_white_border"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_white_border"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_calendar" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:gravity="start"
+                android:text="Time booking: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/idTVTimeBookingTicket"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Sat, 21.09.2003" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/idLayoutDetail"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/idLayoutFlightName"
+            android:layout_weight="3">
+
+            <ImageView
+                android:id="@+id/idIVDirectFlight"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/direct_flight" />
+
+
+            <TextView
+                android:id="@+id/idTVDepartureFlightHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/idIVDirectFlight"
+                android:fontFamily="@font/montserrat"
+                android:text="HAN"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/idTVDestinationFlightHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/idIVDirectFlight"
+                android:fontFamily="@font/montserrat"
+                android:text="SGN"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/idTVTimeDepartureHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/idTVDepartureFlightHistory"
+                android:fontFamily="@font/montserrat"
+                android:text="8:00 AM" />
+
+            <TextView
+                android:id="@+id/idTVTimeDestinationHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/idTVDestinationFlightHistory"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/montserrat"
+                android:text="11:00 AM" />
+
+            <TextView
+                android:id="@+id/idTVDateDepartureTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/idTVDepartureFlightHistory"
+                android:fontFamily="@font/montserrat"
+                android:text="Sep, 20" />
+
+            <TextView
+                android:id="@+id/idTVDateDestinationTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/idTVDestinationFlightHistory"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/montserrat"
+                android:text="Sep, 20" />
+
+        </RelativeLayout>
+        <LinearLayout
+
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/plane_ticket" />
+
+            <TextView
+                android:id="@+id/idTVDescriptionTicket"
+                android:layout_width="0dp"
+                android:textStyle="bold"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:gravity="start|center_vertical"
+                android:fontFamily="@font/montserrat"
+                android:text="Total amount: $87 | Seat: A1 "
+                />
+            <TextView
+                android:id="@+id/idTVDescriptionTicket"
+                android:layout_width="0dp"
+                android:textStyle="bold"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="start|center_vertical"
+                android:fontFamily="@font/montserrat"
+                android:text="Show details"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_navigate_next_24"
+                app:tint="@color/sky_blue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

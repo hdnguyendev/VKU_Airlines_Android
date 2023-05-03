@@ -6,6 +6,7 @@
     android:padding="10dp"
     android:layout_margin="10dp"
     android:background="@drawable/background_white_border">
+
     <LinearLayout
         android:id="@+id/idLayoutFlightName"
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
     <RelativeLayout
         android:id="@+id/idLayoutDetail"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_below="@id/idLayoutFlightName"
        >
 
@@ -99,6 +100,7 @@
             android:text="11:00 AM" />
 
         <TextView
+            android:id="@+id/idTVDepartureFullSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/idTVDepartureFlightSearch"
@@ -106,6 +108,7 @@
             android:text="Departure" />
 
         <TextView
+            android:id="@+id/idTVDestinationFullSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/idTVDestinationFlightSearch"
@@ -120,14 +123,16 @@
         android:layout_below="@id/idLayoutDetail"
         android:layout_height="wrap_content" >
         <ImageView
-            android:src="@drawable/plane_ticket"
+            android:padding="3dp"
+            android:src="@drawable/ic_calendar"
             android:layout_gravity="center_vertical"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <TextView
+            android:id="@+id/idTVDateSearch"
             android:drawableTint="@color/sky_blue"
             android:layout_weight="1"
-            android:text="Buy ticket now"
+            android:text="Sat, 25.04.2023"
             android:fontFamily="@font/montserrat"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"

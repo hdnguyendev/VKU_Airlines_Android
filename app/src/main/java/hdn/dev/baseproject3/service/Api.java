@@ -1,5 +1,6 @@
 package hdn.dev.baseproject3.service;
 
+import java.util.List;
 import java.util.Map;
 
 import hdn.dev.baseproject3.models.FlightResponse;
@@ -8,6 +9,10 @@ import hdn.dev.baseproject3.models.LoginResponse;
 import hdn.dev.baseproject3.models.RegisterRequest;
 import hdn.dev.baseproject3.models.RegisterResponse;
 import hdn.dev.baseproject3.models.SeatResponse;
+import hdn.dev.baseproject3.models.Ticket;
+import hdn.dev.baseproject3.models.TicketDetailResponse;
+import hdn.dev.baseproject3.models.TicketRequest;
+import hdn.dev.baseproject3.models.TicketResponse;
 import hdn.dev.baseproject3.models.User;
 import hdn.dev.baseproject3.models.UserResponse;
 import retrofit2.Call;
@@ -19,7 +24,7 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface Api {
-    String BASE_URL = "http://192.168.1.3:8080/api/v1/";
+    String BASE_URL = "http://192.168.1.10:8080/api/v1/";
 
 
     @PUT("user/{id}")
@@ -36,6 +41,20 @@ public interface Api {
 
     @GET("seats/{flight_code}")
     Call<SeatResponse> getSeatsByFlightCode(@Path("flight_code") String flight_code);
+
+    @POST("tickets")
+    Call<TicketResponse> insertTicket(@Body TicketRequest ticketRequest);
+
+    @GET("flights/departure")
+    Call<List<String>> getDepartures();
+
+    @GET("flights/destination")
+    Call<List<String>> getDestinations();
+
+    @GET("tickets")
+    Call<List<Ticket>> getTickets(@QueryMap Map<String, String> query);
+    @GET("tickets/{ticket_id}")
+    Call<TicketDetailResponse> getTicketDetail(@Path("ticket_id") Long ticket_id) ;
 }
 
 //

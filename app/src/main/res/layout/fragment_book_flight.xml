@@ -8,6 +8,7 @@
     tools:context=".fragments.BookFlightFragment">
 
     <RelativeLayout
+        android:layout_marginBottom="100dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -47,7 +48,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp">
 
@@ -71,7 +72,7 @@
                     android:text="Ha Noi"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,7 +87,7 @@
                     android:textAlignment="textEnd"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -146,8 +147,6 @@
                     android:id="@+id/idTVDateFlight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:drawableStart="@drawable/ic_date"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/montserrat"
@@ -182,6 +181,7 @@
                                 app:startIconDrawable="@drawable/ic_round_star_24">
 
                                 <EditText
+                                    android:fontFamily="@font/montserrat"
                                     android:id="@+id/idETClass"
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
@@ -190,7 +190,7 @@
                                     android:hint="Class"
                                     android:inputType="text"
                                     android:maxLines="1"
-                                    android:text="Ghế hạng phổ thông"
+                                    android:text="Business|Economy"
                                     android:textSize="16sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,8 +225,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
                                     android:background="@drawable/background_gray"
-                                    android:enabled="false"
                                     android:hint="Person"
+                                    android:fontFamily="@font/montserrat"
                                     android:inputType="number"
                                     android:maxLines="1"
                                     android:text="1"
@@ -242,36 +242,40 @@
                             android:layout_weight="1"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="0sp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                app:boxStrokeColor="@android:color/transparent"
-                                app:boxStrokeWidth="0dp"
-                                app:startIconDrawable="@drawable/ic_seat_24_black">
+                            <!--                            <com.google.android.material.textfield.TextInputLayout-->
+                            <!--                                android:layout_width="0sp"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_weight="1"-->
+                            <!--                                app:boxStrokeColor="@android:color/transparent"-->
+                            <!--                                app:boxStrokeWidth="0dp"-->
+                            <!--                                app:startIconDrawable="@drawable/ic_seat_black_24">-->
 
-                                <EditText
-                                    android:id="@+id/idETSeat"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="70dp"
-                                    android:background="@drawable/background_gray"
-                                    android:hint="Seat"
-                                    android:inputType="text"
-                                    android:maxLines="1"
-                                    android:textSize="16sp" />
+                            <!--                                <EditText-->
+                            <!--                                    android:id="@+id/idETSeat"-->
+                            <!--                                    android:layout_width="match_parent"-->
+                            <!--                                    android:layout_height="70dp"-->
+                            <!--                                    android:background="@drawable/background_gray"-->
+                            <!--                                    android:hint="Seat"-->
+                            <!--                                    android:inputType="text"-->
+                            <!--                                    android:maxLines="1"-->
+                            <!--                                    android:textSize="16sp" />-->
 
-                            </com.google.android.material.textfield.TextInputLayout>
-<!--                                <androidx.appcompat.widget.AppCompatButton-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:textColor="@color/sky_blue"-->
-<!--                                    android:drawablePadding="10dp"-->
-<!--                                    android:text="Select Seat"-->
-<!--                                    android:textAllCaps="false"-->
-<!--                                    android:background="@drawable/background_gray"-->
-<!--                                    android:layout_height="match_parent" />-->
+                            <!--                            </com.google.android.material.textfield.TextInputLayout>-->
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/idBtnPickSeat"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/background_gray"
+                                android:drawableTop="@drawable/ic_seat_blue_24"
+                                android:padding="10dp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Select Seat"
+                                android:textAllCaps="false"
+                                android:textColor="@color/sky_blue" />
 
                         </LinearLayout>
                     </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -310,21 +314,96 @@
                             android:layout_weight="4"
                             android:fontFamily="@font/montserrat"
                             android:gravity="center_vertical|center_horizontal"
-                            android:text="0 vnd"
+                            android:text="$0"
                             android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
+
                 </LinearLayout>
+
             </RelativeLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/idLayoutSeatSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idLayoutBookFlight"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_white_border"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_marginStart="10dp"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_wifi" />
+
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/dinner" />
+
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_no_smoking" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:padding="5dp"
+                android:text="Seat\nSelected" />
+
+            <TextView
+                android:id="@+id/idTVSeatSelected"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/sky_blue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/idBtnBuyTicket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/idLayoutBookFlight"
+            android:layout_below="@id/idLayoutSeatSelected"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
@@ -332,7 +411,7 @@
             android:height="60dp"
             android:background="@drawable/btn_blue_sky"
             android:fontFamily="@font/montserrat"
-            android:text="Buy"
+            android:text="Book Ticket"
             android:textAllCaps="false"
             android:textColor="@color/white" />
     </RelativeLayout>

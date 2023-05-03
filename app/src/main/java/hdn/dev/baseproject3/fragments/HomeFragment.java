@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,7 +45,8 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
     private RecyclerView notifyRV;
-    private TextInputEditText inputDateDeparture, inputDateReturn;
+    private TextInputEditText inputDateDeparture, inputDateReturn, idETPassengers;
+    private AutoCompleteTextView inputDeparture, inputDestination;
     AppCompatButton btn_search;
 //    int firstVisibleItemPosition = 0;
 
@@ -99,12 +103,51 @@ public class HomeFragment extends Fragment {
         notifyRV = view.findViewById(R.id.idRVNotify);
         inputDateDeparture = view.findViewById(R.id.idTextInputDateDeparture);
         inputDateReturn = view.findViewById(R.id.idTextInputDateReturn);
+        inputDeparture = view.findViewById(R.id.idETFrom);
+        inputDestination = view.findViewById(R.id.idETTo);
+        idETPassengers = view.findViewById(R.id.idETPassengers);
         btn_search = view.findViewById(R.id.idBtnSearchFlight);
+
+        final List<String>[] departures = new List[]{new ArrayList<String>()};
+        final List<String>[] destinations = new List[]{new ArrayList<String>()};
+
+        Call<List<String>> getDepartures = RetrofitClient.getInstance().getMyApi().getDepartures();
+        getDepartures.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                departures[0] = response.body();
+                ArrayAdapter<String> adapterDepartures = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, departures[0]);
+                System.out.println(departures[0]);
+                inputDeparture.setAdapter(adapterDepartures);
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+        Call<List<String>> getDestinations = RetrofitClient.getInstance().getMyApi().getDestinations();
+        getDestinations.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                destinations[0] = response.body();
+
+                ArrayAdapter<String> adapterDestinations = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, destinations[0]);
+                System.out.println(destinations[0]);
+                inputDestination.setAdapter(adapterDestinations);
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+
         // Lấy ngày hiện tại truyền vào param => lấy những chuyến bay sau thời gian hiện tại
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
         Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("date",currentDateTime);
+        queryParams.put("date", currentDateTime);
 
         Call<FlightResponse> call = RetrofitClient.getInstance().getMyApi().getFights(queryParams);
         call.enqueue(new Callback<FlightResponse>() {
@@ -143,40 +186,6 @@ public class HomeFragment extends Fragment {
                         }
                     });
                     dialog.dismiss();
-//                    notifyRV.setOnTouchListener(new View.OnTouchListener() {
-//                        private float dx;
-//                        private boolean isScrolling = false;
-//
-//                        @Override
-//                        public boolean onTouch(View v, MotionEvent event) {
-//                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                                dx = event.getX();
-//                                isScrolling = false;
-//                                return true;
-//                            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                                float deltaX = event.getX() - dx;
-//                                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-//                                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-//                                int visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1;
-//                                int totalItemCount = adapter.getItemCount();
-//
-//                                if (Math.abs(deltaX) > 10 && !isScrolling) {
-//                                    isScrolling = true;
-//                                    if (deltaX < 0 && (firstVisibleItemPosition + visibleItemCount) < totalItemCount) {
-//                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition + 1);
-//                                    } else if (deltaX > 0 && firstVisibleItemPosition > 0) {
-//                                        notifyRV.smoothScrollToPosition(firstVisibleItemPosition - 1);
-//                                    }
-//                                }
-//                                return true;
-//                            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                                isScrolling = false;
-//                                return true;
-//                            }
-//                            return false;
-//                        }
-//                    });
-
                 } else if (flightResponse.getStatus().equals("error")) {
                     Toast.makeText(getContext(), "Có lỗi", Toast.LENGTH_SHORT).show();
                 }
@@ -187,6 +196,33 @@ public class HomeFragment extends Fragment {
                 System.out.println("Get flights failure");
                 System.out.println(t);
             }
+        });
+
+        btn_search.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            if (!inputDeparture.getText().toString().isEmpty()) {
+                System.out.println(inputDeparture.getText().toString());
+                bundle.putString("departure", inputDeparture.getText().toString());
+            }
+            if (!inputDestination.getText().toString().isEmpty()) {
+                bundle.putString("destination", inputDestination.getText().toString());
+            }
+            if (!inputDateDeparture.getText().toString().isEmpty()) {
+                bundle.putString("time_departure", inputDateDeparture.getText().toString());
+            }
+            if (!inputDateReturn.getText().toString().isEmpty()) {
+                bundle.putString("time_destination", inputDateReturn.getText().toString());
+            }
+            if (!idETPassengers.getText().toString().isEmpty()) {
+                bundle.putString("person", idETPassengers.getText().toString());
+            }
+            SearchFragment searchFragment = new SearchFragment();
+            searchFragment.setArguments(bundle);
+
+
+            // Thay thế Fragment hiện tại bằng một Fragment mới
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, searchFragment).addToBackStack(null).commit();
         });
 
         // Pick day

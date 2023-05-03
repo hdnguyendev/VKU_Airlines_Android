@@ -4,21 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingBottom="100dp"
+    android:background="@color/gray_back"
+
+
     tools:context=".fragments.HistoryFragment">
 
     <!-- Scrollable content -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_gravity="center_vertical"
         android:layout_height="match_parent">
 
-        <TextView
+        <RelativeLayout
+            android:id="@+id/idLayoutTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="History page" />
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:id="@+id/idIVBackground"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/background_blue_sky" />
+            <!--        Logo-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/idLogo"-->
+            <!--                android:layout_width="100dp"-->
+            <!--                android:layout_height="100dp"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:layout_marginTop="40dp"-->
+            <!--                android:layout_marginBottom="20dp"-->
+            <!--                android:src="@drawable/ic_launcher" />-->
+
+            <ImageView
+                android:id="@+id/idIVBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="30dp"
+                android:src="@drawable/ic_round_arrow_back_ios_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/montserrat"
+                android:text="History Booking"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/idRVHistoryBooking"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/idLayoutTop"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            />
+
+
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

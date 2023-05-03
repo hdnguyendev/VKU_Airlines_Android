@@ -87,13 +87,13 @@ public class RegisterActivity extends AppCompatActivity {
                 call.enqueue(new Callback<RegisterResponse>() {
                     @Override
                     public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                        RegisterResponse loginResponse = response.body();
-                        if (loginResponse.getStatus().toString().equals("success")) {
+                        RegisterResponse registerResponse = response.body();
+                        if (registerResponse.getStatus().equals("success")) {
                             finish();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        } else if (loginResponse.getStatus().toString().equals("error")) {
-                            edt_username.setError(loginResponse.getMessage());
+                        } else {
+                            edt_username.setError(registerResponse.getMessage());
                             edt_password.setText("");
                             edt_password_confirm.setText("");
                         }
