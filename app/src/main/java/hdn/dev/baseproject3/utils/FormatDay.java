@@ -8,12 +8,33 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
 public class FormatDay {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatDateSearchVip(String inputDate) {
+        DateTimeFormatter oldFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate date = LocalDate.parse(inputDate, oldFormat);
+        DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedDate = date.format(newFormat);
+        return formattedDate;
+    } public static String formatDateSearch(String inputDate) {
+        DateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+        DateFormat outputDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        try {
+            Date date = inputDateFormat.parse(inputDate);
+            return outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static String formatDate(String inputDate) {
         DateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
         DateFormat outputDateFormat = new SimpleDateFormat("EEE, dd.MM.yyyy hh:mm a", Locale.getDefault());
@@ -90,6 +111,25 @@ public class FormatDay {
             return String.format("%d Hour %d minutes", hours, minutes);
         }
         return String.format("%d Hours %d minutes", hours, minutes);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatDateTicketDetail(String date) {
+//        String dateString = "2023-05-02T11:00:00";
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String formattedDate = dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+        return (formattedDate); // Output: May 02, 2023
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatTimeTicketDetail(String date_start, String date_end) {
+//        String departureTime = "2023-05-02T11:00:00";
+//        String arrivalTime = "2023-05-02T13:00:00";
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime departure = LocalTime.parse(date_start, inputFormatter);
+        LocalTime arrival = LocalTime.parse(date_end, inputFormatter);
+        String formattedTime = departure.format(outputFormatter) + " - " + arrival.format(outputFormatter);
+        return (formattedTime); // Output: 11:00 - 13:00
     }
 
 

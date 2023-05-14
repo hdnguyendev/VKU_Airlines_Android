@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
     private RecyclerView idRVSearchFlight;
     protected ProgressDialog mProgressDialog;
+
+    ImageView iconBack, iconSearch;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -181,10 +184,18 @@ public class SearchFragment extends Fragment {
                 System.out.println(t);
             }
         });
+
+
+
+        iconBack.setOnClickListener(view -> {
+            getFragmentManager().popBackStack();
+        });
+
     }
 
     private void initView(View view) {
         idRVSearchFlight = view.findViewById(R.id.idRVSearchFlight);
-
+        iconSearch = view.findViewById(R.id.iconSearch);
+        iconBack = view.findViewById(R.id.iconBack);
     }
 }

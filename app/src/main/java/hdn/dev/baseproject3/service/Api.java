@@ -24,7 +24,7 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface Api {
-    String BASE_URL = "http://192.168.1.10:8080/api/v1/";
+    String BASE_URL = "http://192.168.1.6:8080/api/v1/";
 
 
     @PUT("user/{id}")

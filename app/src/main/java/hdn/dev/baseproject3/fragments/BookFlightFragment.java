@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -188,9 +189,22 @@ public class BookFlightFragment extends Fragment {
                         TicketResponse ticketResponse = response.body();
                         if (ticketResponse.getStatus().equals("success")) {
                             Ticket ticket = ticketResponse.getData();
+                            Toast.makeText(getContext(), ticketResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             System.out.println(ticket);
                             mProgressDialog.dismiss();
+                            try{
+                                Thread.sleep(2000);
+                                HistoryFragment newFragment = new HistoryFragment();
+                                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.frame_container, newFragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+
+                            }catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
                         } else {
+                            Toast.makeText(getContext(), ticketResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             System.out.println(ticketResponse.getMessage());
                             mProgressDialog.dismiss();
                         }

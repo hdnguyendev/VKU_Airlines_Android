@@ -43,8 +43,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textStyle="bold"
+                android:gravity="end"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
                 android:text="Sat, 21.09.2003" />
         </LinearLayout>
 

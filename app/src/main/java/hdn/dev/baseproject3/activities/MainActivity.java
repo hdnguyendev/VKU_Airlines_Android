@@ -10,16 +10,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import hdn.dev.baseproject3.R;
+import hdn.dev.baseproject3.fragments.HistoryFragment;
 import hdn.dev.baseproject3.fragments.HomeFragment;
 import hdn.dev.baseproject3.fragments.ProfileFragment;
 import hdn.dev.baseproject3.fragments.SearchFragment;
-import hdn.dev.baseproject3.fragments.SettingFragment;
+import hdn.dev.baseproject3.fragments.ChatFragment;
 import hdn.dev.baseproject3.utils.NotificationCustom;
 
 public class MainActivity extends AppCompatActivity {
     private BottomAppBar bottomAppBar;
+    private FloatingActionButton buttonSearch;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -38,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         bottomAppBar = findViewById(R.id.idBottomAppBar);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.idBottomNavView);
+        buttonSearch = findViewById(R.id.idFABBookFlight);
 
+        buttonSearch.setOnClickListener(view -> {
+            Fragment searchFragment = new SearchFragment();
+            loadFragment(searchFragment);
+        });
 
         bottomAppBar.setHideOnScroll(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
                         loadFragment(fragment);
                         return true;
                     case R.id.idItemSearch:
-                        fragment = new SearchFragment();
+                        fragment = new HistoryFragment();
                         loadFragment(fragment);
                         return true;
                     case R.id.idItemSetting:
-                        fragment = new SettingFragment();
+                        fragment = new ChatFragment();
                         loadFragment(fragment);
                         return true;
                 }

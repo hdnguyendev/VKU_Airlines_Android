@@ -5,6 +5,8 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hdn.dev.baseproject3.R;
@@ -24,10 +27,49 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.HistoryViewHolder> {
+public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.HistoryViewHolder> implements Filterable {
     private Context context;
     private List<Ticket> list;
+    private List<Ticket> listOld;
     HistoryRVAdapter.OnItemClickListener mListener;
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String strSearch = constraint.toString();
+                System.out.println(strSearch);
+                if (strSearch.isEmpty())
+                {
+                    list = listOld;
+                } else {
+                    List<Ticket> ticketList = new ArrayList<>();
+                    for (Ticket ticket : listOld) {
+                        System.out.println(ticket.getTicketId() + " : " + FormatDay.formatDateSearch(ticket.getTime_booking()));
+
+                        if (FormatDay.formatDateSearch(ticket.getTime_booking()).equals(strSearch.trim())) {
+                            System.out.println("true: " + ticket);
+                            ticketList.add(ticket);
+                        }
+                    }
+                    list = ticketList;
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = list;
+
+                return results;
+
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                list = (List<Ticket>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 
 
     public interface OnItemClickListener {
@@ -41,6 +83,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.Hist
     public HistoryRVAdapter(Context context, List<Ticket> list) {
         this.context = context;
         this.list = list;
+        this.listOld = list;
     }
 
     @NonNull
@@ -62,7 +105,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.Hist
                 TicketDetailResponse ticketDetailResponse = response.body();
                 if (ticketDetailResponse.getStatus().equals("success")) {
                     TicketDetail ticketDetail = ticketDetailResponse.getData();
-                    System.out.println(ticketDetail);
+                    System.out.println(ticketDetail.toString());
                     holder.idTVTimeBookingTicket.setText(FormatDay.formatTimeBooking(ticket.getTime_booking()));
                     holder.idTVDateDepartureTicket.setText(FormatDay.formatMMMMdd(ticketDetail.getFlight().getDepartureTime()));
                     holder.idTVDateDestinationTicket.setText(FormatDay.formatMMMMdd(ticketDetail.getFlight().getArrivalTime()));

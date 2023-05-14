@@ -1,24 +1,26 @@
 package hdn.dev.baseproject3.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +40,9 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class HistoryFragment extends Fragment {
-
+    HistoryRVAdapter adapter;
     RecyclerView idRVHistory;
+    ImageView btnBack;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -70,30 +73,7 @@ public class HistoryFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    @Override
-    public void onResume() {
-        super.onResume();
 
-
-        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.idBottomNavView);
-        bottomNavigationView.setVisibility(View.GONE);
-        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.idBottomAppBar);
-        bottomAppBar.setVisibility(View.GONE);
-        FloatingActionButton fab = getActivity().findViewById(R.id.idFABBookFlight);
-        fab.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.idBottomNavView);
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.idBottomAppBar);
-        bottomAppBar.setVisibility(View.VISIBLE);
-        FloatingActionButton fab = getActivity().findViewById(R.id.idFABBookFlight);
-        fab.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +91,7 @@ public class HistoryFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -118,6 +99,7 @@ public class HistoryFragment extends Fragment {
         initControl();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initControl() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String json = sharedPreferences.getString("user", "");
@@ -133,20 +115,15 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
                 List<Ticket> list = response.body();
-                HistoryRVAdapter adapter = new HistoryRVAdapter(getContext(), list);
+                 adapter = new HistoryRVAdapter(getContext(), list);
                 idRVHistory.setAdapter(adapter);
                 adapter.setOnItemClickListener(data -> {
                     Bundle bundle = new Bundle();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(data);
 
-                    bundle.putString("flight_data", json);
+                    bundle.putLong("ticket_id", data.getTicketId());
 
                     TicketDetailFragment ticketDetailFragment = new TicketDetailFragment();
-                    ticketDetailFragment
-
-
-                            .setArguments(bundle);
+                    ticketDetailFragment.setArguments(bundle);
 
                     // Thay thế Fragment hiện tại bằng một Fragment mới
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -165,10 +142,63 @@ public class HistoryFragment extends Fragment {
                 System.out.println(t);
             }
         });
+        btnBack.setOnClickListener(view -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+            // Tạo DatePickerDialog
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view12, year12, month12, dayOfMonth12) -> {
+                // Xử lý khi người dùng chọn ngày
+                String dateD = "";
+                if(dayOfMonth12 < 10) dateD = "0" + dayOfMonth12 ; else dateD = String.valueOf(dayOfMonth12);
+                int x = month12 + 1;
+                String monthD = "";
+                if(x < 10) monthD = "0" + x; else monthD = String.valueOf(x);
+                String date = dateD + "/" + monthD + "/" + year12;
+                adapter.getFilter().filter(date);
+            }, year, month, dayOfMonth);
+
+            // Hiển thị DatePickerDialog
+            datePickerDialog.show();
+        });
+
+//        btnBack.setOnClickListener(view -> {
+//            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+//
+//            alert.setTitle("Search anything ...");
+//            alert.setIcon(R.drawable.ic_search);
+//// Set an EditText view to get user input
+//            final TextInputEditText input = new TextInputEditText(getContext());
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                input.setLeftTopRightBottom(20,20,20,20);
+//            }
+//            alert.setView(input);
+//
+//            alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int whichButton) {
+//                    String value = input.getText().toString();
+//                    System.out.println(value);
+//                    // Do something with value!
+//                    adapter.getFilter().filter(value);
+//                }
+//            });
+//
+//            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int whichButton) {
+//                    // Canceled.
+//                }
+//            });
+//
+//            alert.show();
+//
+//        });
 
     }
 
     private void initView(View view) {
         idRVHistory = view.findViewById(R.id.idRVHistoryBooking);
+        btnBack = view.findViewById(R.id.idIVBack);
     }
 }

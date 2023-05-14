@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,8 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
     private RecyclerView notifyRV;
+
+    private TextView idLayoutNoFlightNotify;
     private TextInputEditText inputDateDeparture, inputDateReturn, idETPassengers;
     private AutoCompleteTextView inputDeparture, inputDestination;
     AppCompatButton btn_search;
@@ -107,6 +110,7 @@ public class HomeFragment extends Fragment {
         inputDestination = view.findViewById(R.id.idETTo);
         idETPassengers = view.findViewById(R.id.idETPassengers);
         btn_search = view.findViewById(R.id.idBtnSearchFlight);
+        idLayoutNoFlightNotify = view.findViewById(R.id.idLayoutNoFlightNotify);
 
         final List<String>[] departures = new List[]{new ArrayList<String>()};
         final List<String>[] destinations = new List[]{new ArrayList<String>()};
@@ -156,7 +160,6 @@ public class HomeFragment extends Fragment {
                 FlightResponse flightResponse = response.body();
                 if (flightResponse.getStatus().equals("success")) {
                     ProgressDialog dialog = new ProgressDialog(getContext());
-
                     dialog.setMessage("Loading ....");
                     dialog.setCancelable(false);
                     dialog.show();
@@ -187,12 +190,14 @@ public class HomeFragment extends Fragment {
                     });
                     dialog.dismiss();
                 } else if (flightResponse.getStatus().equals("error")) {
-                    Toast.makeText(getContext(), "Có lỗi", Toast.LENGTH_SHORT).show();
+                    idLayoutNoFlightNotify.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), flightResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<FlightResponse> call, Throwable t) {
+                idLayoutNoFlightNotify.setVisibility(View.VISIBLE);
                 System.out.println("Get flights failure");
                 System.out.println(t);
             }

@@ -7,18 +7,18 @@
         android:title="Home" />
     <item
         android:id="@+id/idItemSearch"
-        android:icon="@drawable/ic_search"
-        android:title="Search" />
+        android:icon="@drawable/ic_airplane_ticket_24"
+        android:title="History" />
     <item
         android:id="@+id/idPlaceHolder"
         android:title="" />
-
+    <item
+        android:id="@+id/idItemSetting"
+        android:icon="@drawable/ic_chatgpt"
+        android:title="ChatGPT" />
     <item
         android:id="@+id/idItemProfile"
         android:icon="@drawable/ic_person"
         android:title="Profile" />
-    <item
-        android:id="@+id/idItemSetting"
-        android:icon="@drawable/ic_setting"
-        android:title="Setting" />
+
 </menu>
